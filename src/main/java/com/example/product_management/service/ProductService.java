@@ -1,0 +1,62 @@
+package com.example.product_management.service;
+
+import com.example.product_management.model.product.Product;
+import com.example.product_management.model.user.User;
+import com.example.product_management.repository.ProductRepository;
+import com.example.product_management.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+@Service
+public class ProductService {
+    @Autowired
+    private  ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    public Product add(Product product){
+//        User user = userRepository.findById(userId).
+//                orElseThrow(() -> new NoSuchElementException("User with id: " + userId + " not found"));
+//        product.setUser(user);
+        return productRepository.save(product);
+    }
+
+    public List<Product> getAllProducts(){
+        return (List<Product>) productRepository.findAll();
+    }
+
+    public Optional<Product> findProduct(Long id){
+        return productRepository.findById(id);
+    }
+
+    public Product updateProduct(Long id, Product product){
+        return productRepository.findById(id).map(
+                p->{
+                    p.setCategory(product.getCategory());
+                    p.setLabel(product.getLabel());
+                    p.setDescription(product.getDescription());
+                    p.setManufacturingDate(product.getManufacturingDate());
+                    p.setExpiryDate(product.getExpiryDate());
+                    return productRepository.save(p);
+                }
+        ).orElseThrow(()->new RuntimeException(("Product not found")));
+    }
+
+    public String deleteProduct(Long id){
+        return productRepository.findById(id).map(p->{
+            productRepository.deleteById(id);
+            return "Product deleted successfully";
+        }).orElseThrow(()-> new RuntimeException(("Product not found")));
+    }
+
+    public List<Product> getProductsByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User with id: " + userId + " not found"));
+
+        return productRepository.findByUserId(userId);
+    }
+}
