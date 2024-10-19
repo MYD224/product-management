@@ -1,5 +1,8 @@
 package com.example.product_management.controller;
 
+import com.example.product_management.auth.AuthenticationRequest;
+import com.example.product_management.auth.AuthenticationResponse;
+import com.example.product_management.auth.RegisterRequest;
 import com.example.product_management.model.product.Product;
 import com.example.product_management.model.user.User;
 import com.example.product_management.service.ProductService;
@@ -24,13 +27,13 @@ public class UserController {
         return ResponseEntity.ok(products);
     }
 
-    @PostMapping("")
-    public ResponseEntity<User> addUser(@RequestBody User user){
-        return ResponseEntity.ok(userService.save(user));
+    @PostMapping("/auth/register")
+    public ResponseEntity<User> addUser(@RequestBody RegisterRequest request){
+        return ResponseEntity.ok(userService.save(request));
     }
 
-    @PostMapping("/login")
-    public void login(@RequestBody User user){
-
+    @PostMapping("/auth/login")
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
+        return ResponseEntity.ok(userService.authenticate(request));
     }
 }

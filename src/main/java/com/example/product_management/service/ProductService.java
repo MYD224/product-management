@@ -4,7 +4,11 @@ import com.example.product_management.model.product.Product;
 import com.example.product_management.model.user.User;
 import com.example.product_management.repository.ProductRepository;
 import com.example.product_management.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,21 +16,26 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private  ProductRepository productRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final   ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     public Product add(Product product){
-//        User user = userRepository.findById(userId).
-//                orElseThrow(() -> new NoSuchElementException("User with id: " + userId + " not found"));
-//        product.setUser(user);
+        var username = getUserUsername();
+        User user = userRepository.findByUsername(username).
+                orElseThrow(() -> new NoSuchElementException("User with username: " + username + " not found"));
+        product.setUser(user);
         return productRepository.save(product);
     }
 
     public List<Product> getAllProducts(){
-        return (List<Product>) productRepository.findAll();
+        var username = getUserUsername();
+        User user = userRepository.findByUsername(username).
+                orElseThrow(() -> new NoSuchElementException("User with username: " + username + " not found"));
+        return user.getRole().equals("ADMIN") ?
+                productRepository.findAll() :
+                productRepository.findByUserId(user.getId());
     }
 
     public Optional<Product> findProduct(Long id){
@@ -55,8 +64,15 @@ public class ProductService {
 
     public List<Product> getProductsByUserId(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User with id: " + userId + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User with id: " + userId + " not found"));
 
         return productRepository.findByUserId(userId);
+    }
+
+    private String getUserUsername(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        return username;
     }
 }

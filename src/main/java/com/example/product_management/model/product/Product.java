@@ -27,6 +27,7 @@ public class Product {
     private String expiryDate;
     @NotNull(message = "Product category cannot be null. possible values: Anesthésiants, Antibiotiques, Androgènes")
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category Category;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)

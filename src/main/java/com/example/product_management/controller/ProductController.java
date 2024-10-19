@@ -4,6 +4,7 @@ import com.example.product_management.model.product.Product;
 import com.example.product_management.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
