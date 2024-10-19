@@ -16,15 +16,19 @@ public class Product {
     private Long id;
 
     @NotNull(message = "Product label cannot be null")
+    @Column(nullable = false)
     private String label;
     private String description;
     @NotNull(message = "Manufacturing date cannot be null")
+    @Column(nullable = false)
     private String manufacturingDate;
     @NotNull(message = "Expiry date cannot be null")
+    @Column(nullable = false)
     private String expiryDate;
     @NotNull(message = "Product category cannot be null. possible values: Anesthésiants, Antibiotiques, Androgènes")
+    @Column(nullable = false)
     private Category Category;
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 }
