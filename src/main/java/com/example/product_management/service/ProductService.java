@@ -32,14 +32,16 @@ public class ProductService {
     public List<Product> getAllProducts(){
         var username = getUserUsername();
         User user = userRepository.findByUsername(username).
-                orElseThrow(() -> new NoSuchElementException("User with username: " + username + " not found"));
+                orElseThrow(() -> new EntityNotFoundException("User with username: " + username + " not found"));
         return user.getRole().equals("ADMIN") ?
                 productRepository.findAll() :
                 productRepository.findByUserId(user.getId());
     }
 
-    public Optional<Product> findProduct(Long id){
-        return productRepository.findById(id);
+    public Product findProduct(Long id){
+
+        return productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product with id "+ id + " not found"));
     }
 
     public Product updateProduct(Long id, Product product){
@@ -52,14 +54,14 @@ public class ProductService {
                     p.setExpiryDate(product.getExpiryDate());
                     return productRepository.save(p);
                 }
-        ).orElseThrow(()->new RuntimeException(("Product not found")));
+        ).orElseThrow(()->new EntityNotFoundException(("Product with id "+ id +" not found")));
     }
 
     public String deleteProduct(Long id){
         return productRepository.findById(id).map(p->{
             productRepository.deleteById(id);
             return "Product deleted successfully";
-        }).orElseThrow(()-> new RuntimeException(("Product not found")));
+        }).orElseThrow(()-> new EntityNotFoundException(("Product with id "+ id +" not found")));
     }
 
     public List<Product> getProductsByUserId(Long userId) {

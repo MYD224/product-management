@@ -23,14 +23,19 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
 
     public User save(RegisterRequest request){
-        var user = User.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .role(request.getRole())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .build();
+        try{
+            var user = User.builder()
+                    .username(request.getUsername())
+                    .email(request.getEmail())
+                    .role(request.getRole())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .build();
 
-        return userRepository.save(user);
+            return userRepository.save(user);
+        }catch (Exception e){
+            throw e;
+        }
+
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -40,8 +45,10 @@ public class UserService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(()-> new EntityNotFoundException("No user found"));
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(
+                        ()-> new EntityNotFoundException(("User with username '" + request.getUsername() + "' not found"))
+                );
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
