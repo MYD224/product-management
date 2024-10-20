@@ -1,7 +1,6 @@
-package com.example.product_management.model.user;
+package com.example.product_management.model.entity;
 
 import com.example.product_management.model.enums.Role;
-import com.example.product_management.model.product.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

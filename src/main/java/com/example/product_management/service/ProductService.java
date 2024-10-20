@@ -2,8 +2,8 @@ package com.example.product_management.service;
 
 import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.dto.UserDTO;
-import com.example.product_management.model.product.Product;
-import com.example.product_management.model.user.User;
+import com.example.product_management.model.entity.Product;
+import com.example.product_management.model.entity.User;
 import com.example.product_management.repository.ProductRepository;
 import com.example.product_management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,10 +1,12 @@
 package com.example.product_management.dto;
 
 import com.example.product_management.model.enums.Category;
-import com.example.product_management.model.product.Product;
+import com.example.product_management.model.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,8 +16,8 @@ public class ProductDTO {
 
     private String label;
     private String description;
-    private String manufacturingDate;
-    private String expiryDate;
+    private LocalDate manufacturingDate;
+    private LocalDate expiryDate;
     private Category category;
     private UserDTO user;
 

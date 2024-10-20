@@ -1,7 +1,7 @@
 package com.example.product_management.dto;
 
 import com.example.product_management.model.enums.Role;
-import com.example.product_management.model.user.User;
+import com.example.product_management.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

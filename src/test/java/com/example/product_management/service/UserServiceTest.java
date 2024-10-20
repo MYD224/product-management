@@ -5,7 +5,7 @@ import com.example.product_management.auth.AuthenticationResponse;
 import com.example.product_management.auth.RegisterRequest;
 import com.example.product_management.config.JwtService;
 import com.example.product_management.model.enums.Role;
-import com.example.product_management.model.user.User;
+import com.example.product_management.model.entity.User;
 import com.example.product_management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
