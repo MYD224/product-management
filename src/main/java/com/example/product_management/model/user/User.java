@@ -1,5 +1,7 @@
 package com.example.product_management.model.user;
 
+import com.example.product_management.model.enums.Role;
+import com.example.product_management.model.product.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +37,9 @@ public class User implements UserDetails {
     @NotNull(message = "Password cannot be null")
     @Column(nullable = false)
     private String password;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Product> products;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

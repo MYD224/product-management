@@ -1,4 +1,4 @@
-package com.example.product_management.model.product;
+package com.example.product_management.model.enums;
 
 public enum Category {
     Anesthésiants,

@@ -3,6 +3,7 @@ package com.example.product_management.controller;
 import com.example.product_management.auth.AuthenticationRequest;
 import com.example.product_management.auth.AuthenticationResponse;
 import com.example.product_management.auth.RegisterRequest;
+import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.model.product.Product;
 import com.example.product_management.model.user.User;
 import com.example.product_management.service.ProductService;
@@ -22,8 +23,8 @@ public class UserController {
     private ProductService productService;
 
    @GetMapping("/{id}/product")
-    public ResponseEntity<List<Product>> getProducts(@PathVariable Long id){
-       List<Product> products = productService.getProductsByUserId(id);
+    public ResponseEntity<List<ProductDTO>> getProducts(@PathVariable Long id){
+       List<ProductDTO> products = productService.getProductsByUserId(id);
         return ResponseEntity.ok(products);
     }
 

@@ -1,5 +1,6 @@
 package com.example.product_management.model.product;
 
+import com.example.product_management.model.enums.Category;
 import com.example.product_management.model.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +29,7 @@ public class Product {
     @NotNull(message = "Product category cannot be null. possible values: Anesthésiants, Antibiotiques, Androgènes")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Category Category;
+    private Category category;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
     private User user;

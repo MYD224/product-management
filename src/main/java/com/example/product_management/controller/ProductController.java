@@ -1,5 +1,6 @@
 package com.example.product_management.controller;
 
+import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.model.product.Product;
 import com.example.product_management.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -17,24 +18,24 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("")
-    public List<Product> getProducts(){
+    public List<ProductDTO> getProducts(){
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product findProduct(@PathVariable Long id){
+    public ProductDTO findProduct(@PathVariable Long id){
         return productService.findProduct(id);
     }
 
     @PostMapping("")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product){
-        Product createdProduct = productService.add(product);
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody Product product){
+        ProductDTO createdProduct = productService.add(product);
         return ResponseEntity.ok(createdProduct);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product){
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody Product product){
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 

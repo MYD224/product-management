@@ -1,6 +1,6 @@
 package com.example.product_management.auth;
 
-import com.example.product_management.model.user.Role;
+import com.example.product_management.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
