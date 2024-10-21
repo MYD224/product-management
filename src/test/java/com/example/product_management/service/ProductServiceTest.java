@@ -36,7 +36,7 @@ class ProductServiceTest {
     private UserRepository userRepository;
 
     @InjectMocks
-    private ProductService productService;
+    private ProductServiceImpl productService;
 
     @Mock
     private Authentication authentication;

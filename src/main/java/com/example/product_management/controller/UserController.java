@@ -5,10 +5,9 @@ import com.example.product_management.auth.AuthenticationResponse;
 import com.example.product_management.auth.RegisterRequest;
 import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.model.entity.User;
-import com.example.product_management.service.ProductService;
-import com.example.product_management.service.UserService;
+import com.example.product_management.service.ProductServiceImpl;
+import com.example.product_management.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("api/v1/test/users")
 public class UserController {
-    private UserService userService;
-    private ProductService productService;
+    private UserServiceImpl userService;
+    private ProductServiceImpl productService;
 
    @GetMapping("/{id}/product")
     public ResponseEntity<List<ProductDTO>> getProducts(@PathVariable Long id){

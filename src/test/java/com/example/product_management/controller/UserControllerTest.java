@@ -5,27 +5,23 @@ import com.example.product_management.auth.AuthenticationResponse;
 import com.example.product_management.auth.RegisterRequest;
 import com.example.product_management.config.JwtService;
 import com.example.product_management.dto.ProductDTO;
-import com.example.product_management.dto.UserDTO;
 import com.example.product_management.model.entity.User;
 import com.example.product_management.model.enums.Category;
 import com.example.product_management.model.enums.Role;
-import com.example.product_management.service.ProductService;
-import com.example.product_management.service.UserService;
+import com.example.product_management.service.ProductServiceImpl;
+import com.example.product_management.service.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -43,10 +39,10 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @MockBean
-    private ProductService productService;
+    private ProductServiceImpl productService;
     @MockBean
     private JwtService jwtService;
 

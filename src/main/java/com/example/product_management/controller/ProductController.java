@@ -2,7 +2,7 @@ package com.example.product_management.controller;
 
 import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.model.entity.Product;
-import com.example.product_management.service.ProductService;
+import com.example.product_management.service.ProductServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("api/v1/test/products")
 public class ProductController {
-    private final ProductService productService;
+    private final ProductServiceImpl productService;
 
     @GetMapping("")
     public List<ProductDTO> getProducts(){
