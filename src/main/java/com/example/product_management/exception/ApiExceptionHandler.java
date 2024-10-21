@@ -44,6 +44,7 @@ public class ApiExceptionHandler {
         );
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGlobalException(Exception ex, WebRequest request) {
         log.error("Exception occurred: {}", ex.getMessage(), ex);
@@ -51,18 +52,21 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public @ResponseBody ResponseEntity<ApiException> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
-        ApiException apiException = new ApiException(HttpStatus.UNAUTHORIZED.value(), "Invalid credentials", request.getDescription(false), ZonedDateTime.now());
+        ApiException apiException = new ApiException(HttpStatus.UNAUTHORIZED.value(), "Invalid credentials provided", request.getDescription(false), ZonedDateTime.now());
         return new ResponseEntity<>(apiException, HttpStatus.UNAUTHORIZED);
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
     public @ResponseBody ResponseEntity<ApiException> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         ApiException apiException = new ApiException(HttpStatus.FORBIDDEN.value(), "You are not authorized to access this resource", request.getDescription(false), ZonedDateTime.now());
         return new ResponseEntity<>(apiException, HttpStatus.FORBIDDEN);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public @ResponseBody ResponseEntity<ApiException> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
         StringBuilder message = new StringBuilder();
@@ -70,6 +74,8 @@ public class ApiExceptionHandler {
         ApiException apiException = new ApiException(HttpStatus.BAD_REQUEST.value(), "Validation failed", message.toString(), ZonedDateTime.now());
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public @ResponseBody ResponseEntity<ApiException> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
         StringBuilder message = new StringBuilder();
@@ -78,19 +84,21 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public @ResponseBody ResponseEntity<ApiException> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
         ApiException apiException = new ApiException(HttpStatus.BAD_REQUEST.value(), "Invalid argument", ex.getMessage(), ZonedDateTime.now());
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public @ResponseBody ResponseEntity<ApiException> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         ApiException apiException = new ApiException(HttpStatus.CONFLICT.value(), "Data integrity violation", ex.getRootCause().getMessage(), ZonedDateTime.now());
         return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
     }
 
-
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ExpiredJwtException.class)
     public @ResponseBody ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException ex) {
         return new ResponseEntity<>("The provided token is expired. login again to get a valid one", HttpStatus.UNAUTHORIZED);
