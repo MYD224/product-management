@@ -88,7 +88,7 @@ public class UserServiceTest {
     void whenAuthenticateWithInvalidUsername_thenThrowEntityNotFoundException() {
         AuthenticationRequest request = new AuthenticationRequest("invaliduser", "password");
 
-        when(authenticationManager.authenticate(any())).thenReturn(null); // Assuming no exception means success
+        when(authenticationManager.authenticate(any())).thenReturn(null);
         when(userRepository.findByUsername(request.getUsername())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> userService.authenticate(request));

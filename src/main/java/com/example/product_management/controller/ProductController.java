@@ -4,6 +4,7 @@ import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.model.entity.Product;
 import com.example.product_management.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +27,10 @@ public class ProductController {
     }
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProductDTO> addProduct(@RequestBody Product product){
         ProductDTO createdProduct = productService.add(product);
-        return ResponseEntity.ok(createdProduct);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
 

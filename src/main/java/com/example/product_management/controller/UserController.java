@@ -7,18 +7,19 @@ import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.model.entity.User;
 import com.example.product_management.service.ProductService;
 import com.example.product_management.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("api/v1/test/users")
 public class UserController {
-    @Autowired
     private UserService userService;
-    @Autowired
     private ProductService productService;
 
    @GetMapping("/{id}/product")
@@ -28,8 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/auth/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> addUser(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(userService.save(request));
+        return new ResponseEntity<>(userService.save(request), HttpStatus.CREATED);
     }
 
     @PostMapping("/auth/login")
