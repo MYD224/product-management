@@ -4,6 +4,7 @@ import com.example.product_management.dto.ProductDTO;
 import com.example.product_management.dto.UserDTO;
 import com.example.product_management.model.entity.Product;
 import com.example.product_management.model.entity.User;
+import com.example.product_management.model.enums.Role;
 import com.example.product_management.repository.ProductRepository;
 import com.example.product_management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -40,7 +41,7 @@ public class ProductServiceImpl implements ProductService{
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        List<Product> products = user.getRole().equals("ADMIN") ?
+        List<Product> products = user.getRole().equals(Role.ADMIN) ?
                 productRepository.findAll() :
                 productRepository.findByUserId(user.getId());
 

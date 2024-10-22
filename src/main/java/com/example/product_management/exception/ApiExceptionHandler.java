@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 import org.springframework.web.context.request.WebRequest;
 
 import java.nio.file.AccessDeniedException;
@@ -42,14 +44,6 @@ public class ApiExceptionHandler {
                 apiException,
                 HttpStatus.UNAUTHORIZED
         );
-    }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGlobalException(Exception ex, WebRequest request) {
-        log.error("Exception occurred: {}", ex.getMessage(), ex);
-        ApiException apiException = new ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), request.getDescription(false), ZonedDateTime.now());
-        return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -102,5 +96,18 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public @ResponseBody ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException ex) {
         return new ResponseEntity<>("The provided token is expired. login again to get a valid one", HttpStatus.UNAUTHORIZED);
+    }
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(Unauthorized.class)
+    public @ResponseBody ResponseEntity<String> handleUnauthorizedException(HttpClientErrorException ex) {
+        return new ResponseEntity<>("You are not authorized to access this resource. token invalid or missing", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleGlobalException(Exception ex, WebRequest request) {
+        log.error("Exception occurred: {}", ex.getMessage(), ex);
+        ApiException apiException = new ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), request.getDescription(false), ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
